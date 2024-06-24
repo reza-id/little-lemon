@@ -35,18 +35,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.edit
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.littlelemon.Constants.EMAIL
 import com.example.littlelemon.Constants.FIRST_NAME
 import com.example.littlelemon.Constants.LAST_NAME
+import com.example.littlelemon.Constants.LOGGED_IN
 import com.example.littlelemon.Constants.USER_PREFERENCES
 
 @Composable
-fun Onboarding() {
+fun Onboarding(context: Context, navController: NavController) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
 
-    val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences(USER_PREFERENCES, Context.MODE_PRIVATE)
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -133,9 +136,15 @@ fun Onboarding() {
                             putString(FIRST_NAME, firstName)
                             putString(LAST_NAME, lastName)
                             putString(EMAIL, email)
+                            putBoolean(LOGGED_IN, true)
                         }
 
                         Toast.makeText(context, "Registration successful!", Toast.LENGTH_SHORT).show()
+                        navController.navigate(Home.route) {
+                            popUpTo(Onboarding.route) {
+                                inclusive = true
+                            }
+                        }
                     }
                 },
                 shape = RoundedCornerShape(8.dp),
@@ -159,5 +168,5 @@ fun Onboarding() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewOnboarding() {
-    Onboarding()
+    Onboarding(context = LocalContext.current, navController = rememberNavController())
 }
