@@ -16,10 +16,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
@@ -32,7 +28,10 @@ import com.example.littlelemon.R
 import com.example.littlelemon.ui.theme.LittleLemonColor
 
 @Composable
-fun HeroSection() {
+fun HeroSection(
+    searchPhrase: String,
+    onSearchChange: (String) -> Unit,
+) {
     Column(
         modifier = Modifier
             .background(LittleLemonColor.green)
@@ -68,9 +67,10 @@ fun HeroSection() {
                 modifier = Modifier.clip(RoundedCornerShape(10.dp))
             )
         }
+
         OutlinedTextField(
-            value = "",
-            onValueChange = {  },
+            value = searchPhrase,
+            onValueChange = onSearchChange,
             placeholder = { Text(text = "Enter search phrase") },
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
@@ -89,5 +89,5 @@ fun HeroSection() {
 @Preview(showBackground = true)
 @Composable
 fun UpperPanelPreview() {
-    HeroSection()
+    HeroSection("", {})
 }
