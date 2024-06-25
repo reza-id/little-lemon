@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
 @Composable
-fun NavigationComposable(context: Context, navController: NavHostController, paddingValues: PaddingValues) {
+fun NavigationComposable(context: Context, database: AppDatabase, navController: NavHostController, paddingValues: PaddingValues) {
     val sharedPreferences = context.getSharedPreferences(Constants.USER_PREFERENCES, Context.MODE_PRIVATE)
     val isLoggedIn = sharedPreferences.getBoolean(Constants.LOGGED_IN, false)
 
@@ -23,7 +23,7 @@ fun NavigationComposable(context: Context, navController: NavHostController, pad
             Onboarding(context, navController)
         }
         composable(Home.route) {
-            Home(navController)
+            Home(database, navController)
         }
         composable(Profile.route) {
             Profile(context, navController)
